@@ -77,10 +77,10 @@ function writeTheData(array){
                let destination = document.getElementById('row-'+index)
               // console.log('row-'+index)
                if (element.toLowerCase() === 'yes'){
-                element = '<img class="yes" src="imgs/checkbox.svg" alt="Yes.">';
+                element = '<img class="icon" src="imgs/checkbox.svg" alt="Yes.">';
                }
                if (element.toLowerCase() === 'no'){
-                element = '<img class="yes" src="imgs/no.svg" alt="No.">';
+                element = '<img class="icon" src="imgs/no.svg" alt="No.">';
                }
                if(numbers.includes(element)){
                 element = `<span class="number">${element}</span>`
