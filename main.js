@@ -69,6 +69,7 @@ function writeTheData(array){
   array.forEach(function(element, index) {
               // console.log(index)
               const numbers = ['1','2','3','4']
+              const regions = ['latin-america','africa', 'asia', 'europe','middle-east']
                if (index === 0){
                  var wrapper = 'th'
                } else {

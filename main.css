@@ -61,7 +61,14 @@ tr:hover td {
   display: block;
 }
 
+.region {
+  display: none;
+}
 
+.number {
+  text-align: center;
+  display: block;
+}
 
 /*tr:hover td a {
   color: #fff;
@@ -128,7 +135,7 @@ only screen and (max-width: 760px),
   td:nth-of-type(15):before { content: "COVID test required?"; }
   td:nth-of-type(16):before { content: "COVID test required?"; }
 
-  .icon {
+  .icon, .number {
     margin-right: 100%;
   }
 }
