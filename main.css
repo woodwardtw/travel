@@ -65,11 +65,37 @@ tr:hover td {
   display: none;
 }
 
-
 .number {
   text-align: center;
   display: block;
   margin: 0 auto;
+}
+
+.flight-availability, .us-citizens-permitted-to-enter-for-purposes-of-study, .other-foreign-nationals-permitted-to-enter-for-purposes-of-study,
+.quarantine-required-upon-arrival, .covid-test-negative-results-required-for-entry, .us-students-can-obtain-a-visa, .proof-of-vaccination-required-for-entry {
+  text-align: center;
+}
+
+
+/*BUTTONS*/
+button {
+  border-radius: 0;
+  padding: 5px 10px;
+  text-align: center;
+  font-weight: 700;
+  border: thin solid #000;
+  width: 140px;
+  transition: all .3s;
+  background-color: #fff;
+}
+
+button:hover {
+  background: #eee; 
+  cursor: pointer;
+}
+
+.active {
+  background-color: #FDD16D;
 }
 
 /*tr:hover td a {

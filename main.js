@@ -68,43 +68,56 @@ function writeTheData(array){
   //const col = document.querySelector('#travel-updates')
   array.forEach(function(element, index) {
               // console.log(index)
-              const numbers = ['1','2','3','4', 1, 2, 3, 4]
-              const regions = ['latin-america','africa', 'asia', 'europe','middle-east']
+              const numbers = ['1','2','3','4', 1, 2, 3, 4]; //check for numbers and deal with text issue in lzy way
+              const regions = ['latin-america','africa', 'asia', 'europe','middle-east'];//check for regions
                if (index === 0){
-                 var wrapper = 'th'
+                 var wrapper = 'th';//shift for headers
                } else {
-                 var wrapper = 'td'
+                 var wrapper = 'td';//regular tds
                }
-               let destination = document.getElementById('row-'+index)
-               let cleanName = cleanseName(element)
+               let destination = document.getElementById('row-'+index);//send to pre-created rows
+               let cleanName = cleanseName(element);//clean up name
                if(regions.includes(cleanName)){
-                  destination.classList.add(cleanName)
+                  destination.classList.add(cleanName);//if in region add it to row
                }
-              // console.log('row-'+index)
                if (element.toLowerCase() === 'yes'){
-                element = '<img class="icon" src="imgs/checkbox.svg" alt="Yes.">';
+                element = '<img class="icon" src="imgs/checkbox.svg" alt="Yes.">';//change to icons
                }
                if (element.toLowerCase() === 'no'){
-                element = '<img class="icon" src="imgs/no.svg" alt="No.">';
+                element = '<img class="icon" src="imgs/no.svg" alt="No.">';//change to icons
                }
                if(numbers.includes(element) && name == 'us-dept-of-state-advisory'){
                 //element = `<span class="number">${element}</span>`
                 let warning = usTravelWarning(element);
                 element = `<div aria-labelledby="tip${index}" class="tooltip number">${element}
-    <span class="tooltiptext" id="tip${index}">${warning}</span></div>`
+    <span class="tooltiptext" id="tip${index}">${warning}</span></div>`;//deal with tooltips
                }
               if(numbers.includes(element) && name == 'us-cdc-level'){
                 //element = `<span class="number">${element}</span>`
                 let warning = covidTravelWarning(element);
                 element = `<div aria-labelledby="tip${index}" class="tooltip number">${element}
-    <span class="tooltiptext" id="tip${index}">${warning}</span></div>`
+    <span class="tooltiptext" id="tip${index}">${warning}</span></div>`;//deal with tooltips 
                }
-
+               if(name === 'more-covid-specific-country-information'){
+                urlFix(element)
+               }
                let html = destination.innerHTML
-               destination.innerHTML = html + `<${wrapper} class="${name}">${element}</${wrapper}>`;
+               destination.innerHTML = html + `<${wrapper} class="${name}">${element}</${wrapper}>`;//set cell content
              })
   }
 
+function urlFix(element){
+  let breakThemUp = element.split('*')
+  console.log(breakThemUp)
+  if(breakThemUp){
+    breakThemUp.forEach(function(element,index){
+      console.log(element)
+    })
+  }
+}
+
+
+//BUTTONS and tooltips 
 
 
 function usTravelWarning(number){
@@ -170,27 +183,40 @@ function buttonsActivate(){
   let buttons = document.querySelectorAll('.hider')
   buttons.forEach((button) => {
     button.addEventListener('click', () => {
-      hideShow(button.id)
+      if(button.id == 'show-all'){
+        showAll()
+      } else {
+        hideShow(button.id)
+        activeButton(button)
+      }
     });
   });
 }
 
+function activeButton(button){
+   Array.from(document.querySelectorAll('.active')).forEach(function(el) { 
+      el.classList.remove('active');
+  });
+    button.classList.add('active')
+}
 
 function hideShow(id){
   //from https://stackoverflow.com/a/61773683/3390935
-    Array.from(document.querySelectorAll('.hidden')).forEach(function(el) { 
-      el.classList.remove('hidden');
-  });
+    showAll();
     let rows = document.querySelectorAll('tr')
-    rows.forEach((row) => {
-      console.log(id)
-      console.log(row.classList.contains(id))
+    rows.forEach((row) => {      
       if(row.id != 'row-0'){
         if(row.classList.contains(id) === false){
         row.classList.add('hidden')
        }
       }
       
+  });
+}
+
+function showAll(){
+    Array.from(document.querySelectorAll('.hidden')).forEach(function(el) { 
+      el.classList.remove('hidden');
   });
 }
 
