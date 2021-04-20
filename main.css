@@ -61,13 +61,15 @@ tr:hover td {
   display: block;
 }
 
-.region {
+.region, .hidden {
   display: none;
 }
+
 
 .number {
   text-align: center;
   display: block;
+  margin: 0 auto;
 }
 
 /*tr:hover td a {
@@ -141,49 +143,40 @@ only screen and (max-width: 760px),
 }
 
 
-/*from */
-
-/* Tooltip styles */
-.tooltip-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
 .tooltip {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translate(-50%, calc(100% + 10px));
-  padding: 6px calc(10px + 1rem) 6px 10px;
-  border-radius: 4px;
-  background: rgba(0, 0, 0, 0.9);
-  color: #fff;
+  position: relative;
+  display: block;
+  border-bottom: 1px dotted black;
+  width: 20px;
 }
 
-.tooltip::before {
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 320px;
+  background-color: black;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip .tooltiptext::after {
   content: "";
   position: absolute;
-  top: -10px;
-  left: calc(50% - 10px);
-  border-bottom: 10px solid rgba(0, 0, 0, 0.9);
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
+  top: 100%;
+  left: 20%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
 }
 
-/* a designer could certainly style this better :) */
-.tooltip-close {
-  position: absolute;
-  top: 0.25rem;
-  right: 0.25rem;
-  width: 1rem;
-  height: 1rem;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  box-shadow: 0 0 1px 1px rgba(200, 200, 200, 0.5);
-  background-color: transparent;
-  color: #fff;
-  font-size: 0.75rem;
-  line-height: 1rem;
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  z-index: 1000;
 }
-

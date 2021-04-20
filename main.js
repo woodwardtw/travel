@@ -68,7 +68,7 @@ function writeTheData(array){
   //const col = document.querySelector('#travel-updates')
   array.forEach(function(element, index) {
               // console.log(index)
-              const numbers = ['1','2','3','4']
+              const numbers = ['1','2','3','4', 1, 2, 3, 4]
               const regions = ['latin-america','africa', 'asia', 'europe','middle-east']
                if (index === 0){
                  var wrapper = 'th'
@@ -76,6 +76,10 @@ function writeTheData(array){
                  var wrapper = 'td'
                }
                let destination = document.getElementById('row-'+index)
+               let cleanName = cleanseName(element)
+               if(regions.includes(cleanName)){
+                  destination.classList.add(cleanName)
+               }
               // console.log('row-'+index)
                if (element.toLowerCase() === 'yes'){
                 element = '<img class="icon" src="imgs/checkbox.svg" alt="Yes.">';
@@ -83,48 +87,56 @@ function writeTheData(array){
                if (element.toLowerCase() === 'no'){
                 element = '<img class="icon" src="imgs/no.svg" alt="No.">';
                }
-               if(numbers.includes(element)){
-                element = `<span class="number">${element}</span>`
+               if(numbers.includes(element) && name == 'us-dept-of-state-advisory'){
+                //element = `<span class="number">${element}</span>`
+                let warning = usTravelWarning(element);
+                element = `<div aria-labelledby="tip${index}" class="tooltip number">${element}
+    <span class="tooltiptext" id="tip${index}">${warning}</span></div>`
+               }
+              if(numbers.includes(element) && name == 'us-cdc-level'){
+                //element = `<span class="number">${element}</span>`
+                let warning = covidTravelWarning(element);
+                element = `<div aria-labelledby="tip${index}" class="tooltip number">${element}
+    <span class="tooltiptext" id="tip${index}">${warning}</span></div>`
                }
 
                let html = destination.innerHTML
                destination.innerHTML = html + `<${wrapper} class="${name}">${element}</${wrapper}>`;
              })
- 
   }
 
 
 
 function usTravelWarning(number){
-  if (number === 1){
+  if (number == 1){
     return 'Level 1 - Exercise Normal Precautions: This is the lowest advisory level for safety and security risk. There is some risk in any international travel. Conditions in other countries may differ from those in the United States and may change at any time.'
   } 
-  if (number === 2){
+  if (number == 2){
     return 'Level 2 - Exercise Increased Caution: Be aware of heightened risks to safety and security. The Department of State provides additional advice for travelers in these areas in the Travel Advisory. Conditions in any country may change at any time.'
   }
-   if (number === 3){
+   if (number == 3){
     return 'Level 3 - Reconsider Travel: Avoid travel due to serious risks to safety and security. The Department of State provides additional advice for travelers in these areas in the Travel Advisory. Conditions in any country may change at any time.'
   }
-   if (number === 4){
+   if (number == 4){
     return 'Level 4 – Do Not Travel: This is the highest advisory level due to greater likelihood of life-threatening risks. During an emergency, the U.S. government may have very limited ability to provide assistance. The Department of State advises that U.S. citizens not travel to the country or to leave as soon as it is safe to do so. The Department of State provides additional advice for travelers in these areas in the Travel Advisory. Conditions in any country may change at any time.'
   }
 
 }
 
 function covidTravelWarning(number){
-    if (number === 1){
+    if (number == 1){
       return 'Level 1: COVID-19 Low'
     } 
-    if (number === 2){
+    if (number == 2){
       return 'Level 2: COVID-19 Moderate'
     }
-     if (number === 3){
+     if (number == 3){
       return 'Level 3: COVID-19 High'
     }
-     if (number === 4){
+     if (number == 4){
       return 'Level 4: COVID-19 Very High'
     }
-    if (number === 'Unknown'){
+    if (number == 'Unknown'){
       return 'Level Unknown: COVID-19 Unknown'
     }
 }
@@ -153,3 +165,33 @@ function cleanseName(str)
 
   return str;
 }
+
+function buttonsActivate(){
+  let buttons = document.querySelectorAll('.hider')
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      hideShow(button.id)
+    });
+  });
+}
+
+
+function hideShow(id){
+  //from https://stackoverflow.com/a/61773683/3390935
+    Array.from(document.querySelectorAll('.hidden')).forEach(function(el) { 
+      el.classList.remove('hidden');
+  });
+    let rows = document.querySelectorAll('tr')
+    rows.forEach((row) => {
+      console.log(id)
+      console.log(row.classList.contains(id))
+      if(row.id != 'row-0'){
+        if(row.classList.contains(id) === false){
+        row.classList.add('hidden')
+       }
+      }
+      
+  });
+}
+
+buttonsActivate();
