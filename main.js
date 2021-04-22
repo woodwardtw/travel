@@ -5,23 +5,26 @@ fetch(sheetUrl).then(function(response) {
   const contentType = response.headers.get("content-type");
   if (contentType && contentType.indexOf("application/json") !== -1) {
     return response.json().then(function(json) {
+      const date = json.feed.updated.$t
+      setUpdateDate(date)
       // now that you've got the data let's do something with it per item
       if (json.feed.entry) {
         const data = json.feed.entry;
-        let countries = [];//
-        let cancelDate = [];//
-        let openClose = [];//
-        let stateAdv = [];//
-        let cdc = [];//
-        let flight = [];//
-        let usEnter = [];//
-        let fEnter = [];//
-        let quarantine = [];//
-        let covidTest = [];//
-        let proof = [];//
-        let usVisa = [];//
-        let fVisa = [];//
-        let perVac = [];//
+        let countries = [];//1
+        let cancelDate = [];//2
+        let openClose = [];//3
+        let flight = [];
+        let stateAdv = [];//4
+        let cdc = [];//5
+        let usEnter = [];//7
+        let fEnter = [];//8
+        let quarantine = [];//9
+        let covidTest = [];//10
+        let proof = [];//11
+        let usVisa = [];//12
+        let fVisa = [];//13
+        let perVac = [];//14
+        let fifteen = [];
         let row1 = [];
         let holder = [];
         data.forEach(function(element,index){
@@ -29,8 +32,6 @@ fetch(sheetUrl).then(function(response) {
               countries.push(element.gsx$one.$t);
               cancelDate.push(element.gsx$two.$t);
               openClose.push(element.gsx$three.$t);
-              stateAdv.push(element.gsx$four.$t);
-              cdc.push(element.gsx$five.$t);
               flight.push(element.gsx$six.$t);
               usEnter.push(element.gsx$seven.$t);
               fEnter.push(element.gsx$eight.$t);
@@ -39,24 +40,26 @@ fetch(sheetUrl).then(function(response) {
               proof.push(element.gsx$eleven.$t);
               usVisa.push(element.gsx$twelve.$t);
               fVisa.push(element.gsx$thirteen.$t);
+              stateAdv.push(element.gsx$four.$t);
+              cdc.push(element.gsx$five.$t);
               perVac.push(element.gsx$fourteen.$t);
-    
+              fifteen.push(element.gsx$fifteen.$t);
         })
-        writeTheData(countries)
-        writeTheData(cancelDate)
-        writeTheData(openClose)
-        writeTheData(stateAdv)
-        writeTheData(cdc)
-        writeTheData(flight)
-        writeTheData(usEnter)
-        writeTheData(fEnter)
-        writeTheData(quarantine)
-        writeTheData(covidTest)
-        writeTheData(proof)
-        writeTheData(usVisa)
-        writeTheData(fVisa)        
-        writeTheData(perVac)
-
+        writeTheData(countries)//1
+        writeTheData(cancelDate)//2
+        writeTheData(openClose)//3
+        writeTheData(stateAdv)//4
+        writeTheData(cdc)//5
+        writeTheData(flight)//6
+        writeTheData(usEnter)//7
+        writeTheData(fEnter)//8
+        writeTheData(quarantine)//9
+        writeTheData(covidTest)//10
+        writeTheData(proof)//11
+        writeTheData(usVisa)//12
+        writeTheData(fVisa) //13       
+        writeTheData(perVac)//14
+        writeTheData(fifteen)//15
       }
     });
   } 
@@ -80,12 +83,7 @@ function writeTheData(array){
                if(regions.includes(cleanName)){
                   destination.classList.add(cleanName);//if in region add it to row
                }
-               if (element.toLowerCase() === 'yes'){
-                element = '<img class="icon" src="imgs/checkbox.svg" alt="Yes.">';//change to icons
-               }
-               if (element.toLowerCase() === 'no'){
-                element = '<img class="icon" src="imgs/no.svg" alt="No.">';//change to icons
-               }
+               element = wordsToImages(element);
                if(numbers.includes(element) && name == 'us-dept-of-state-advisory'){
                 //element = `<span class="number">${element}</span>`
                 let warning = usTravelWarning(element);
@@ -98,25 +96,69 @@ function writeTheData(array){
                 element = `<div aria-labelledby="tip${index}" class="tooltip number">${element}
     <span class="tooltiptext" id="tip${index}">${warning}</span></div>`;//deal with tooltips 
                }
-               if(name === 'more-covid-specific-country-information'){
-                urlFix(element)
+               if(name === 'more-covid-specific-country-information' && index != 0){
+                  element = urlFix(element)
                }
                let html = destination.innerHTML
                destination.innerHTML = html + `<${wrapper} class="${name}">${element}</${wrapper}>`;//set cell content
              })
   }
 
+  function wordsToImages(element){
+      const word = element.split(" ").join("")
+      if (word.toLowerCase() === 'yes'){
+        return element = '<img class="icon" src="imgs/yes.svg" alt="Yes.">';//change to icons
+      }
+      if (word.toLowerCase() === 'no'){
+        return element = '<img class="icon" src="imgs/no_oct.svg" alt="No.">';//change to icons
+      }
+      if (word.toLowerCase() === 'depends'){
+        return element = '<img class="icon" src="imgs/depends_tri.svg" alt="Depends.">';//change to icons
+      } else {
+        return element;
+      }
+  }
+
+function setUpdateDate(date){
+  const dateBox = document.getElementById('date')
+  date = date.slice(0, 10);
+  dateBox.innerHTML = date;
+}
+
 function urlFix(element){
-  let breakThemUp = element.split('*')
-  console.log(breakThemUp)
-  if(breakThemUp){
-    breakThemUp.forEach(function(element,index){
-      console.log(element)
-    })
+  const data = element.split(';')
+  let links = ''
+  if (data.length >1){
+      data.forEach(function(element,index){ 
+        links = links + urlMaker(element) 
+      })
+    return links;
+  }
+  if (element.split(',').length > 1){
+    return urlMaker(element);
+  } 
+  else {
+    console.log(element.split(',').length > 1)
+    return `<a href="${element}">${element}</a>`;
   }
 }
 
+//make URLs
+function urlMaker(string){
+  const urlArray = string.split(',')
+  const name = cleanLeadingSpace(urlArray[0]);
+  const url = cleanLeadingSpace(urlArray[1]);
+  return `<a href="${url}">${name}</a>`
+}
 
+
+//clean up leading space
+function cleanLeadingSpace(string){
+  if(string.indexOf(' ') == 0){
+    string = string.replace(' ','')
+  }
+  return string;
+}
 //BUTTONS and tooltips 
 
 
@@ -185,6 +227,7 @@ function buttonsActivate(){
     button.addEventListener('click', () => {
       if(button.id == 'show-all'){
         showAll()
+        activeButton(button)
       } else {
         hideShow(button.id)
         activeButton(button)

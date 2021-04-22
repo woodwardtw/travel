@@ -9,17 +9,26 @@
 
         <!-- Place favicon.ico in the root directory -->
 
-        <link rel="stylesheet" href="main.css?v=5">
+        <link rel="stylesheet" href="main.css?v=8">
     </head>
     <body>
-    	<div id="buttons">
-    		<button id="africa" class="hider">Africa</button>
-    		<button id="asia" class="hider">Asia</button>
-    		<button id="europe" class="hider">Europe</button>
-    		<button id="latin-america" class="hider">Latin America</button>
-    		<button id="middle-east" class="hider">Middle East</button>
-    		<button id="show-all" class="hider">All</button>
-    	</div>
+    	<h1>Middlebury College Travel Updates</h1>
+    	<div class="top">
+	    	<div id="buttons">
+	    		<button id="africa" class="hider">Africa</button>
+	    		<button id="asia" class="hider">Asia</button>
+	    		<button id="europe" class="hider">Europe</button>
+	    		<button id="latin-america" class="hider">Latin America</button>
+	    		<button id="middle-east" class="hider">Middle East</button>
+	    		<button id="show-all" class="hider">All</button>
+	    	</div>
+	    	<div id="legend">
+	    		<div class="yes l-item"><img src="imgs/yes.svg" alt="Yes.">Yes, at this time</div>
+	    		<div class="no l-item"><img src="imgs/no_oct.svg" alt="No.">No, at this time</div>
+	    		<div class="depends l-item"><img src="imgs/depends_tri.svg" alt="Depends.">Depends. Please consult your Middlebury study abroad advisor.</div>
+	    		<div class="updated l-item">Updated on <span id="date"></span></div>
+	    	</div>
+	    </div>
         <!--[if lte IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
@@ -47,8 +56,8 @@
 
 		  </tbody>
 	</table>
-
-        <script src="main.js?v=5"></script>
+     
+<script src="main.js?v=8"></script>
 
     </body>
 </html>
