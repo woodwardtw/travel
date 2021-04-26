@@ -100,7 +100,7 @@ function writeTheData(array){
                   element = urlFix(element)
                }
                let html = destination.innerHTML
-               destination.innerHTML = html + `<${wrapper} class="${name}">${element}</${wrapper}>`;//set cell content
+               destination.innerHTML = html + `<${wrapper} class="${name}"><div><span>${element}</span></div></${wrapper}>`;//set cell content
              })
   }
 

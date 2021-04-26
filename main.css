@@ -14,13 +14,18 @@ a {
 
 table { 
   width: 100%; 
-  border-collapse: collapse; 
   vertical-align: top;
+  margin: 0;
+  border: none;
+  border-collapse: separate;
+  border-spacing: 0;
+  z-index: 0;
 }
 /* Zebra striping */
 tr:nth-of-type(odd) { 
   background: #eee; 
 }
+
 
 th { 
   background: #0D395F; 
@@ -66,19 +71,28 @@ h1, h2, h3, h4 {
 }
 
 /*
-fixed table headers
+fixed table headers modified to do fixed left column as well
 from https://adrianroselli.com/2020/01/fixed-table-headers.html*/
 #row-0 th {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: 20;
   text-align: left;
 }
 
+table .country{
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  background: #0D395F; 
+  color: white; 
+}
+
+
 td, th { 
   padding: 6px; 
-  border: thin solid #fff; 
+  border: thin solid #97BBD5; 
   text-align: left; 
   vertical-align: top;
   max-width: 250px;
@@ -91,6 +105,7 @@ tr td {
 
 tr:hover td {
   background-color: #FDD16D;
+  color: #000;
 }
 
 .icon {
@@ -117,6 +132,7 @@ tr:hover td {
 
 
 /*BUTTONS*/
+
 button {
   border-radius: 0;
   padding: 5px 10px;
@@ -230,6 +246,12 @@ only screen and (max-width: 760px),
 .quarantine-required-upon-arrival, .covid-test-negative-results-required-for-entry, .us-students-can-obtain-a-visa, .proof-of-vaccination-required-for-entry {
   text-align: left;
 }
+table .country{
+  position: relative;
+  background: #0D395F; 
+  color: white; 
+  margin-top: 5px;
+}
   
   /*
   Label the data
@@ -252,4 +274,30 @@ only screen and (max-width: 760px),
   .icon, .number {
     margin-right: 100%;
   }
+  #buttons {
+    width: 100%;
+  }
+  #legend {
+    width: 100%;
+  }
+
 }
+/*
+th  {
+  position: relative;
+  height: 100px;
+}
+
+th > div {
+  position: absolute;
+  bottom: 20px;
+}
+
+th > div > span {
+  width: 340px;
+  transform: rotate(315deg);
+  background-color: red;
+  display: block;
+  bottom: 0;
+}
+*/
