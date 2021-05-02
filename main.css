@@ -6,6 +6,9 @@ body {
   font-family: sans-serif;
   font-size: .8em;
   overflow-wrap: break-word;
+  max-width: 98%;
+  overflow-x: hidden;
+  margin: 0 auto;
 }
 
 a {
@@ -206,7 +209,11 @@ and also iPads specifically.
 @media 
 only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px)  {
-
+  #travel-updates {
+    max-width: 98%;
+    margin: 0 auto;
+    overflow: hidden;
+  }
   /* Force table to not be like tables anymore */
   table, thead, tbody, th, td, tr { 
     display: block; 
@@ -228,6 +235,7 @@ only screen and (max-width: 760px),
     position: relative;
     padding-left: 50%; 
     text-align: left;
+    overflow-wrap: break-word;
   }
   
   td:before { 
@@ -280,7 +288,13 @@ table .country{
   #legend {
     width: 100%;
   }
-
+  .l-item {
+    height: auto;
+  }
+  #legend {
+    margin: 20px;
+    width: 90%;
+  }
 }
 /*
 th  {
