@@ -196,7 +196,9 @@ button:hover {
   z-index: 1000;
 }
 
-
+.flight-availability, .proof-of-vaccination-required-for-entry {
+  display: none;
+}
 
 /*tr:hover td a {
   color: #fff;
