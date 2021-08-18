@@ -1,49 +1,49 @@
-const sheetUrl = 'https://spreadsheets.google.com/feeds/list/10YBAyiuJQCqSv4U-uHGGsKvEThszd_xPBo2w9zeEkfY/2/public/values?alt=json'
-
+const sheetUrl = 'https://script.googleusercontent.com/macros/echo?user_content_key=c7Sun2g644N0AMThNwT3ghPPsUVRCoPx2A-yLfoFqtDTX3efxFomkpoE6KxPo0MEFEZexdW5_vbZkIQCBImzRyUewMrfZgyAm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnB_eDG_odtQHpkaI_25uVNB8Dh1xDd9gM4pfVYw2Rh4-hVtIXyg3Wi71OwoxFifp2SvJoFBzzCoLeN2yMRFHFP3BMXZuvrEhlm7jStICjpNhlADFrhbfyKU&lib=Mbj3CMdFWNbyZUgiin2xTwgCJlRPNQ9a3';
 
 fetch(sheetUrl).then(function(response) {
   const contentType = response.headers.get("content-type");
   if (contentType && contentType.indexOf("application/json") !== -1) {
     return response.json().then(function(json) {
-      const date = json.feed.updated.$t
-      setUpdateDate(date)
+     // const date = json.feed.updated.$t
+      //setUpdateDate(date)
+      console.log(json)
       // now that you've got the data let's do something with it per item
-      if (json.feed.entry) {
-        const data = json.feed.entry;
-        let countries = [];//1
-        let cancelDate = [];//2
-        let openClose = [];//3
-        let flight = [];
-        let stateAdv = [];//4
-        let cdc = [];//5
-        let usEnter = [];//7
-        let fEnter = [];//8
-        let quarantine = [];//9
-        let covidTest = [];//10
-        let proof = [];//11
-        let usVisa = [];//12
-        let fVisa = [];//13
-        let perVac = [];//14
-        let fifteen = [];
+      if (json.data) {
+        const data = json.data;
+        let countries = ['Country'];//1
+        let cancelDate = ['Cancellation Date'];//2
+        let openClose = ['Fall Semester Status'];//3
+        let flight = ['Flight Availability'];
+        let stateAdv = ['US Dept. of State Advisory'];//4
+        let cdc = ['US CDC Level'];//5
+        let usEnter = ['US Citizens permitted to enter for purposes of study'];//7
+        let fEnter = ['Other foreign nationals permitted to enter for purposes of study'];//8
+        let quarantine = ['Quarantine required upon arrival'];//9
+        let covidTest = ['COVID test (negative results) required for entry'];//10
+        let proof = ['Proof of vaccination required for entry'];//11
+        let usVisa = ['US students can obtain a visa'];//12
+        let fVisa = ['Non-US students can obtain a visa'];//13
+        let perVac = ['More COVID-specific country information'];//14
+        let fifteen = ['region'];
         let row1 = [];
         let holder = [];
         data.forEach(function(element,index){
           //console.log(element);//
-              countries.push(element.gsx$one.$t);
-              cancelDate.push(element.gsx$two.$t);
-              openClose.push(element.gsx$three.$t);
-              flight.push(element.gsx$six.$t);
-              usEnter.push(element.gsx$seven.$t);
-              fEnter.push(element.gsx$eight.$t);
-              quarantine.push(element.gsx$nine.$t);
-              covidTest.push(element.gsx$ten.$t);
-              proof.push(element.gsx$eleven.$t);
-              usVisa.push(element.gsx$twelve.$t);
-              fVisa.push(element.gsx$thirteen.$t);
-              stateAdv.push(element.gsx$four.$t);
-              cdc.push(element.gsx$five.$t);
-              perVac.push(element.gsx$fourteen.$t);
-              fifteen.push(element.gsx$fifteen.$t);
+              countries.push(element['country']);
+              cancelDate.push(element['cancellation date'].substring(0,10));
+              openClose.push(element['fall semester status']);
+              flight.push(element['flight availability']);
+              usEnter.push(element['us citizens permitted to enter for purposes of study']);
+              fEnter.push(element['other foreign nationals permitted to enter for purposes of study']);
+              quarantine.push(element['quarantine required upon arrival']);
+              covidTest.push(element['covid test (negative results) required for entry']);
+              proof.push(element['proof of vaccination required for entry']);
+              usVisa.push(element['us students can obtain a visa']);
+              fVisa.push(element['non-us students can obtain a visa']);
+              stateAdv.push(element['us dept. of state advisory']);
+              cdc.push(element['us cdc level']);
+              perVac.push(element['more covid-specific country information']);
+              fifteen.push(element['region']);
         })
         writeTheData(countries)//1
         writeTheData(cancelDate)//2
@@ -71,7 +71,7 @@ function writeTheData(array){
   //const col = document.querySelector('#travel-updates')
   array.forEach(function(element, index) {
               // console.log(index)
-              const numbers = ['1','2','3','4', 1, 2, 3, 4]; //check for numbers and deal with text issue in lzy way
+              const numbers = ['1','2','3','4', 1, 2, 3, 4]; //check for numbers and deal with text issue in lazy way
               const regions = ['latin-america','africa', 'asia', 'europe','middle-east'];//check for regions
                if (index === 0){
                  var wrapper = 'th';//shift for headers
@@ -105,6 +105,7 @@ function writeTheData(array){
   }
 
   function wordsToImages(element){
+      element = element.toString();
       const word = element.split(" ").join("")
       if (word.toLowerCase() === 'yes'){
         return element = '<img class="icon" src="imgs/yes.svg" alt="Yes.">';//change to icons
@@ -200,6 +201,7 @@ function covidTravelWarning(number){
 //from https://gist.github.com/spyesx/561b1d65d4afb595f295
 function cleanseName(str)
 {
+  str = str.toString();
   str = str.replace(/^\s+|\s+$/g, ''); // trim
   str = str.toLowerCase();
 
